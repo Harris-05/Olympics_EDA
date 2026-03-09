@@ -14,3 +14,4 @@ print(df[['NOC','Gold','Silver','Bronze']].head(25))
 
 medal_df=df.drop_duplicates(subset=['Team','NOC','Games','Year','City','Sport','Event','Medal'])
 print(medal_df.groupby('NOC').sum()[['Gold','Silver','Bronze']].sort_values('Gold',ascending=False).reset_index().head(25))
+
