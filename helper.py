@@ -28,3 +28,26 @@ def medal_tally(df, year, country):
     
 
     return temp
+
+def most_successful(df, country):
+    temp_df = df.dropna(subset=['Medal'])
+    temp_df = temp_df[temp_df['region'] == country]
+    
+    counts = temp_df['Name'].value_counts().reset_index().head(15)
+    counts.columns = ['Name', 'Medals'] 
+    
+    x = counts.merge(df, on='Name', how='left')[['Name', 'Medals', 'Sport']].drop_duplicates('Name')
+    
+    return x
+
+def yearwise_medal(df, country):
+    temp_df = df.dropna(subset=['Medal'])
+    
+    temp_df = temp_df.drop_duplicates(subset=['Team', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'])
+
+    temp_df = temp_df[temp_df['region'] == country]
+    final_df = temp_df.groupby('Year').count()['Medal'].reset_index()
+    
+    final_df = final_df.sort_values('Year', ascending=True)
+    
+    return final_df
